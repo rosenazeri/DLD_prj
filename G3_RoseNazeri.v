@@ -17,7 +17,7 @@ module freq_divider_100Hz (
         end  
     end  
 endmodule
-// این فرکانس دیوایدر جدید رو ساختم که به اف اس ام و دیبانسر پاس بدم تا بهتر و درست تر کار کنند
+ 
 module freq_divider_100Hz (  
     input wire clk_in,    
     output reg clk_out    
@@ -37,8 +37,7 @@ module freq_divider_100Hz (
         end  
     end  
 endmodule
-//دیبانسر رو بدون ماژول فلیپ فلاپ نوشتم بلکه دستی ان را درست کردم (assign کردم)
-// در پایین تر توضیح دادم که کلاک ورودی دیبانسر را فرکانسش را 1000 هرتز کردم
+
 module DB ( input clk, input reset, input sig, output reg sig_debounced);
 
 reg q0, q1, q2;
@@ -57,10 +56,6 @@ sig_debounced <= q0 && q1 && ~q2;
 end
 end endmodule
 
-
-// دیبانسر active low هست بخاطر همین درست مار نمیکرد چون من ورودی رو باید قرینه میکردم و به دیبانسر میدادم اما قرینه نکردم 
-//داخلی این کد ورودی رو قرینه میکنم و به دیبانسر میدم در این صورت دیبانسر درست کار میکند 
-//ویدیو ای تهیه کردم از کارکرد درست دیبانسرم اگر مایل بودید تماشا کنین
 module FSM(
     input wire clk,
     input wire o,           
@@ -492,10 +487,8 @@ module top_module(
     wire debounced_entry, debounced_exit;
     wire [1:0]exits;  
      
-    freq_divider_100Hz fd100(clk , clk_out1);   
-    //فرکانس دیوایدر جدید رو فراخوانی کردم و به ورودی دیبانسر ها و اف اس ام دادم
-    freq_divider_1000Hz fd1000(clk , clk_out2);  
-    // اینجا باید نقیض ورودی را به دیبانسر بدهیم 
+    freq_divider_100Hz fd100(clk , clk_out1);    
+    freq_divider_1000Hz fd1000(clk , clk_out2);   
 
     DB db_entry(clk_out2, reset, ~sensor_Entry, debounced_entry);  
     DB db_exit(clk_out2, reset, ~sensor_Exit, debounced_exit);  
@@ -521,9 +514,7 @@ module top_module(
 			all_num,
 			seg_sel,
 			data_seg
-    );  
-    // در اینجا تابع ال ای دی چشمک زن باید فراخوانی شود . من ورودی های اشتباهی به ان داده بودم به همین دلیل به اشتباه چشمک میخورد 
-    //در این ورژن اشتباهمو رفع کردم و ویدیو گرفتم امیدوارم مورد قبولتون باشه
+    );   
     led_blinker lb1(clk , reset , open , full , open_door , full_light );
     
 endmodule
